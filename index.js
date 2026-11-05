@@ -1,0 +1,3 @@
+import express from 'express';import mongoose from 'mongoose';import cors from 'cors';import dotenv from 'dotenv';import contactRoutes from './routes/contact.js';
+dotenv.config();const app=express();app.use(cors({origin:process.env.CLIENT_ORIGIN||'http://localhost:5173'}));app.use(express.json({limit:'20kb'}));app.get('/api/health',(req,res)=>res.json({status:'ok',service:'Niranjan Portfolio API'}));app.use('/api/contact',contactRoutes);
+const PORT=process.env.PORT||5000;mongoose.connect(process.env.MONGODB_URI||'mongodb://127.0.0.1:27017/niranjan_portfolio').then(()=>{console.log('MongoDB connected');app.listen(PORT,()=>console.log(`API running on ${PORT}`));}).catch(err=>{console.error('MongoDB connection failed:',err.message);process.exit(1);});
